@@ -111,6 +111,13 @@ Our purpose is to investigate whether Coors Field in Denver, Colorado is truly t
 - Why might high altitude affect baseball performance?  Is Coors Field affected by high altitude?
 :::
 
+::: {.callout-tip}
+## Section 1 Answers: Declaration of Purpose
+
+- Thinner air at high altitudes reduces drag and pitch movement, letting balls travel farther — increasing offensive output.
+- Coors Field is affected by high altitude because it is located at a high altitude in Denver, Colorado.
+:::
+
 ## Stage 2: Curation of Content
 
 **Mental Model:** Gather and create all the data you need to support your message.
@@ -154,6 +161,18 @@ print(avgDF_2021.head())
 **Question 1: Data Aggregation Strategy**
 - How many games are in the dataset? Why do we aggregate individual games into stadium averages before we start the visualization process?
 :::
+
+::: {.callout-tip}
+## Section 2 Answers: Curation of Content
+
+```{python}
+print("There are " + str(len(df2010)) + " games in the dataset for 2010.")
+print("There are " + str(len(df2021)) + " games in the dataset for 2021.")
+
+```
+- We aggregate by home so it groups games by the home stadium or home team — and then takes the mean of the numeric columns. We do this to get a single value for each stadium. This is the average runs and home runs per game for each stadium. This reduced noise and is easier to visualize and help us answer if Coors Field is the most run-friendly ballpark in 2010 and 2021.
+:::
+
 
 ## Stage 3: Structuring of Visual Mappings
 
@@ -216,6 +235,17 @@ plt.show()
 - What does the color highlighting accomplish in Approach 4?
 - How does position (x/y) compare to color for encoding data?
 
+:::
+
+::: {.callout-tip}
+## Section 3 Answers: Structuring of Visual Mappings
+**Answer 1 Geometry Choices: **
+- A horizontal bar chart is better than a scatter plot for this data because it is easier to compare the runs per game for each stadium. The stadium names are categorical and often long, so placing them on the y-axis keeps the labels readable. The bar lengths clearly show differences in average runs, making comparisons straightforward, while a scatter plot would be less effective for displaying one numeric variable across categories.
+- You would choose a vertical bar chart over horizontal when you want to compare the runs per game for each stadium and the stadiums are not too many. A vertical bar chart is better when you have a small number of categories and want to compare their values.
+**Answer 2 Aesthetic Mappings: **
+- The color highlighting draws attention to specific stadiums or patterns in the data. In this case, it accomplishes that Colorado is the most run-friendly ballpark in 2010.
+- Position (x/y) is the most accurate way to show numerical differences because people can easily compare how high, low, long, or short something is on a chart. It’s best for showing quantitative values like average runs per game.
+Color, on the other hand, is better for showing categories or groups and for drawing attention to certain data points. It helps the viewer quickly see patterns or differences, but it’s less precise for comparing exact values.
 :::
 
 ## Stage 4: Formatting for Your Audience
