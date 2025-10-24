@@ -316,7 +316,7 @@ First few rows of 2010 data:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="d54d35af" class="cell" data-execution_count="3">
+<div id="61df6337" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(df2010)) <span class="op">+</span> <span class="st">" games in the dataset for 2010."</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(df2021)) <span class="op">+</span> <span class="st">" games in the dataset for 2021."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -628,7 +628,7 @@ Colorado is 20.8% above league average</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Answer 1 Using Subplot Layout: </strong></p>
-<div id="7a1d9cac" class="cell" data-execution_count="8">
+<div id="9cbfb2ae" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>comparison_data <span class="op">=</span> pd.merge(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    avgDF_2010[[<span class="st">'home'</span>, <span class="st">'totalRuns'</span>]].rename(columns<span class="op">=</span>{<span class="st">'totalRuns'</span>: <span class="st">'runs_2010'</span>}),</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    avgDF_2021[[<span class="st">'home'</span>, <span class="st">'totalRuns'</span>]].rename(columns<span class="op">=</span>{<span class="st">'totalRuns'</span>: <span class="st">'runs_2021'</span>}),</span>
@@ -663,7 +663,7 @@ Colorado is 20.8% above league average</code></pre>
 <ul>
 <li>We will run the below program to check if AI comes to the right conclusion.</li>
 </ul>
-<div id="35e5fba8" class="cell" data-execution_count="9">
+<div id="5a1c46f3" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Code to check mean per game for Col amd Bos</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>col_2010 <span class="op">=</span> avgDF_2010_sorted.loc[avgDF_2010_sorted.home <span class="op">==</span> <span class="st">'COL'</span>, <span class="st">'totalRuns'</span>].values[<span class="dv">0</span>]</span>
@@ -683,8 +683,8 @@ Colorado's average runs per game in 2021: 10.65 runs/game
 Boston's average runs per game in 2021: 10.77 runs/game</code></pre>
 </div>
 </div>
-<p>Sid’s analysis:</p>
-<p>Purpose: To check if Coors Field’s high altitude affects scoring.</p>
+<p><strong>Sid’s analysis:</strong></p>
+<p><strong>Purpose:</strong> To check if Coors Field’s high altitude affects scoring.</p>
 <p><strong>Reasoning:</strong> 1. Colorado’s runs per game were 10.59 in 2010 and 10.65 in 2021, showing consistency. 2.Boston’s runs per game were 10.02 in 2010 and 10.77 in 2021, showing a larger increase over time. 3. Both stadiums remain in the top 10 most run-friendly stadiums in 2021. 4. The dataset does not account for altitude or other environmental factors, so we cannot conclude that high altitude makes a stadium more run-friendly based on this data alone.</p>
 <p>Conclusion: The visualization is inconclusive regarding the effect of altitude on scoring. AI’s conclusion is data backed as it created a python program on its own to check the mean per game for Colorado and Boston and compared the results.</p>
 </div>

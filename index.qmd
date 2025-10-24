@@ -481,9 +481,9 @@ print(f"Colorado's average runs per game in 2021: {col_2021:.2f} runs/game")
 print(f"Boston's average runs per game in 2021: {bos_2021:.2f} runs/game")
 
 ```
-Sid's analysis:
+**Sid's analysis:**
 
-Purpose: To check if Coors Field’s high altitude affects scoring.
+**Purpose:** To check if Coors Field’s high altitude affects scoring.
 
 **Reasoning:**
 1. Colorado’s runs per game were 10.59 in 2010 and 10.65 in 2021, showing consistency.
