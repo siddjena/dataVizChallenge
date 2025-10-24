@@ -148,7 +148,8 @@ avgDF_2021 = (df2021
     .groupby(['home'], as_index=False)
     .mean()
 )
-
+# Sort 2021 data for consistency with 2010 data
+avgDF_2021_sorted = avgDF_2021.sort_values('totalRuns', ascending=True)
 print("2010 Stadium Averages (Top 5):")
 print(avgDF_2010.head())
 print("\n2021 Stadium Averages (Top 5):")
@@ -242,6 +243,7 @@ plt.show()
 **Answer 1 Geometry Choices: **
 - A horizontal bar chart is better than a scatter plot for this data because it is easier to compare the runs per game for each stadium. The stadium names are categorical and often long, so placing them on the y-axis keeps the labels readable. The bar lengths clearly show differences in average runs, making comparisons straightforward, while a scatter plot would be less effective for displaying one numeric variable across categories.
 - You would choose a vertical bar chart over horizontal when you want to compare the runs per game for each stadium and the stadiums are not too many. A vertical bar chart is better when you have a small number of categories and want to compare their values.
+
 **Answer 2 Aesthetic Mappings: **
 - The color highlighting draws attention to specific stadiums or patterns in the data. In this case, it accomplishes that Colorado is the most run-friendly ballpark in 2010.
 - Position (x/y) is the most accurate way to show numerical differences because people can easily compare how high, low, long, or short something is on a chart. It’s best for showing quantitative values like average runs per game.
@@ -319,6 +321,78 @@ print(f"Colorado is {((colorado_runs / avgDF_2010_sorted.totalRuns.mean()) - 1) 
 
 :::
 
+::: {.callout-tip}
+## Section 4 Answers: Formatting for Your Audience
+**Answer 1 Professional Formatting: **
+- The visualization is suitable for a business presentation because it looks professional, has a clear title, axis labels, and legend, and highlights the key data point (Colorado) effectively.
+- The annotation is helpful because it calls out Colorado’s average runs per game and provides context by showing the league average, making the main insight easy to understand at a glance.
+**Answer 2 Fixing the Annotation Placement: **
+- The annotation was improved by positioning it above the Colorado bar using the bar's actual y-coordinate and increasing the vertical offset, making it clearly visible. Alignment and arrow style were adjusted for readability and a more professional appearance.
+```{python}
+#| label: stage-4-formatting-fixed
+#| echo: true
+
+# Stage 4: Formatting for Your Audience
+# Create a professional, publication-ready visualization
+
+# Set style for professional appearance
+plt.style.use("seaborn-v0_8-whitegrid")
+
+# Create the main visualization
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create color array for highlighting Colorado
+colorado_colors = ["darkorchid" if stadium == "COL" else "lightgrey" 
+                   for stadium in avgDF_2010_sorted.home]
+
+# Create horizontal bar chart
+bars = ax.barh(avgDF_2010_sorted.home, avgDF_2010_sorted.totalRuns, color=colorado_colors)
+
+# Add title and labels
+ax.set_title("Colorado (COL) is the Most Run-Friendly Ballpark in 2010", 
+             fontsize=16, fontweight='bold', pad=20)
+ax.set_xlabel("Average Runs Per Game", fontsize=12)
+ax.set_ylabel("Stadium (Home Team)", fontsize=12)
+
+# Add legend
+colorado_bar = plt.Rectangle((0,0),1,1, color="darkorchid", label="Colorado Rockies")
+other_bar = plt.Rectangle((0,0),1,1, color="lightgrey", label="Other Stadiums")
+ax.legend(handles=[colorado_bar, other_bar], loc='lower right', frameon=True)
+
+# Add annotation for Colorado
+colorado_index = avgDF_2010_sorted[avgDF_2010_sorted.home == "COL"].index[0]
+colorado_runs = avgDF_2010_sorted[avgDF_2010_sorted.home == "COL"]["totalRuns"].iloc[0]
+# Get the actual y-coordinate of the bar
+bar = bars[avgDF_2010_sorted[avgDF_2010_sorted.home == "COL"].index[0]]
+y_bar = bar.get_y() + bar.get_height() / 2  # center of the bar
+
+# Annotate above the bar
+ax.annotate(f"COL: {colorado_runs:.2f} runs/game",
+            xy=(colorado_runs, y_bar),       # point to center of bar
+            xytext=(colorado_runs + 0.5, y_bar + 0.3),  # clearly above
+            ha='left', va='bottom',
+            arrowprops=dict(arrowstyle='-|>', color='darkorchid', lw=2),
+            fontsize=10, fontweight='bold', color='darkorchid')
+
+# Set x-axis to start from 0 for better comparison
+ax.set_xlim(0, max(avgDF_2010_sorted.totalRuns) * 1.1)
+
+# Add grid for easier reading
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Print summary statistics
+print(f"\nSummary Statistics for 2010:")
+print(f"Colorado (COL) average runs per game: {colorado_runs:.2f}")
+print(f"League average runs per game: {avgDF_2010_sorted.totalRuns.mean():.2f}")
+print(f"Colorado is {((colorado_runs / avgDF_2010_sorted.totalRuns.mean()) - 1) * 100:.1f}% above league average")
+```
+:::
+::: {.callout-tip}
+
+
 
 ## Advanced Object-Oriented Techniques
 
@@ -353,6 +427,72 @@ comparison_data = pd.merge(
 **Question 2: Explanation of the Visualization**
 - Ask AI To Add A Paragraph Here To Explain The Visualization
 - Does AI come to the right conclusion?  If not, why not?
+:::
+::: {.callout-tip}
+## Section 5 Answers: Advanced Object-Oriented Techniques
+**Answer 1 Using Subplot Layout: **
+```{python}
+
+comparison_data = pd.merge(
+    avgDF_2010[['home', 'totalRuns']].rename(columns={'totalRuns': 'runs_2010'}),
+    avgDF_2021[['home', 'totalRuns']].rename(columns={'totalRuns': 'runs_2021'}),
+    on='home', how='inner'
+)
+
+## TODO: Create the visualization
+fig, axes = plt.subplots(1, 2, figsize=(8, 6), sharey=True)
+comparison_data_2010 = comparison_data.sort_values('runs_2010', ascending=True)
+comparison_data_2021 = comparison_data.sort_values('runs_2021', ascending=True)
+colors_2010 = ['darkorchid' if i == comparison_data_2010['runs_2010'].idxmax() else ('lightgrey' if home=='COL' else 'lightgrey') for i, home in zip(comparison_data_2010.index, comparison_data_2010['home'])]
+colors_2021 = ['darkorchid' if i == comparison_data_2021['runs_2021'].idxmax() else ('lightgrey' if home=='COL' else 'lightgrey') for i, home in zip(comparison_data_2021.index, comparison_data_2021['home'])]
+
+axes[0].barh(comparison_data_2010['home'], comparison_data_2010['runs_2010'], color=colors_2010)
+axes[0].set_title("2010(darkorchid is longest bar)")  
+axes[1].barh(comparison_data_2021['home'], comparison_data_2021['runs_2021'], color=colors_2021)
+axes[1].set_title("2021(darkorchid is longest bar)")
+plt.tight_layout()
+plt.show()
+
+```
+- The visualization is a two-facet visualization that shows the total runs for 2010 and 2021 for each stadium in a single figure. Colorado is highlighted in purple to make it easy to compare their performance across both seasons.
+
+**Answer 2 Explanation of the Visualization:**
+- AI Explanation of the Visualization:
+**Analysis Results:**
+- **Colorado's Performance:** Colorado maintained consistent scoring (10.59 runs/game in 2010 → 10.65 runs/game in 2021) but dropped from 1st to 2nd place in the rankings.
+- **New Leader:** Boston (BOS) became the most run-friendly stadium in 2021 with 10.77 runs per game, overtaking Colorado's long-standing position.
+- **Key Insight:** While Colorado's "Coors Field effect" persisted, other stadiums saw greater increases in offensive output, suggesting that league-wide changes affected different ballparks differently over the decade.
+- **Conclusion:** Colorado is no longer the most run-friendly stadium in 2021, demonstrating how stadium effects can evolve over time even for historically high-scoring ballparks.
+
+- We will run the below program to check if AI comes to the right conclusion.
+
+```{python}
+# Code to check mean per game for Col amd Bos
+
+col_2010 = avgDF_2010_sorted.loc[avgDF_2010_sorted.home == 'COL', 'totalRuns'].values[0]
+bos_2010 = avgDF_2010_sorted.loc[avgDF_2010_sorted.home == 'BOS', 'totalRuns'].values[0]
+
+col_2021 = avgDF_2021_sorted.loc[avgDF_2021_sorted.home == 'COL', 'totalRuns'].values[0]
+bos_2021 = avgDF_2021_sorted.loc[avgDF_2021_sorted.home == 'BOS', 'totalRuns'].values[0]
+
+print(f"Colorado's average runs per game in 2010: {col_2010:.2f} runs/game")
+print(f"Boston's average runs per game in 2010: {bos_2010:.2f} runs/game")
+print(f"Colorado's average runs per game in 2021: {col_2021:.2f} runs/game")
+print(f"Boston's average runs per game in 2021: {bos_2021:.2f} runs/game")
+
+```
+Sid's analysis:
+
+Purpose: To check if Coors Field’s high altitude affects scoring.
+
+**Reasoning:**
+1. Colorado’s runs per game were 10.59 in 2010 and 10.65 in 2021, showing consistency.
+2.Boston’s runs per game were 10.02 in 2010 and 10.77 in 2021, showing a larger increase over time.
+3. Both stadiums remain in the top 10 most run-friendly stadiums in 2021.
+4. The dataset does not account for altitude or other environmental factors, so we cannot conclude that high altitude makes a stadium more run-friendly based on this data alone.
+
+Conclusion: The visualization is inconclusive regarding the effect of altitude on scoring. AI's conclusion is data backed as it created a python program on its own to check the mean per game for Colorado and Boston and compared the results.
+
 :::
 
 ## Student Analysis Section: Mastering Object-Oriented Matplotlib {#student-analysis-section}
